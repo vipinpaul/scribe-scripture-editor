@@ -101,16 +101,35 @@ function EditorSync({ selectedProject }) {
 
   return (
     <>
-      {syncProgress.syncStarted ? <ProgressCircle currentValue={syncProgress.completedFiles} totalValue={syncProgress.totalFiles} />
+      {syncProgress.syncStarted ? (
+        <div
+          type="div"
+          role="button"
+          className={`group ${menuStyles.btn} transition-all duration-0ms opacity-100`}
+        >
+          <ProgressCircle currentValue={syncProgress.completedFiles} totalValue={syncProgress.totalFiles} circleSize="1.5rem" width="1.5rem" />
+        </div>
+      )
         : (
         // eslint-disable-next-line react/jsx-no-useless-fragment
           <>
             {syncProgress?.uploadDone ? (
-              <CloudCheckIcon
-                fill="green"
-                className="h-9 w-9 mx-1"
-                aria-hidden="true"
-              />
+              <div
+                aria-label="add-panels"
+                title={t('label-saved-to-cloud')}
+                type="div"
+                role="button"
+                className={`group ${menuStyles.btn}
+            transition-all duration-[${syncProgress?.uploadDone ? '0ms' : '2000ms' }]${
+                syncProgress?.uploadDone ? 'opacity-0' : 'opacity-100'}`}
+              >
+                <CloudCheckIcon
+                  fill="green"
+                  className="h-6 w-6"
+                  aria-hidden="true"
+                />
+              </div>
+
             )
               : (
                 <div
@@ -123,11 +142,13 @@ function EditorSync({ selectedProject }) {
             transition-all duration-[${syncProgress?.uploadDone ? '0ms' : '2000ms' }]${
                   syncProgress?.uploadDone ? 'opacity-0' : 'opacity-100'}`}
                 >
-                  <CloudUploadIcon
-                    fill="currentColor"
-                    className="h-6 w-6"
-                    aria-hidden="true"
-                  />
+                  <button type="button" onClick={() => setIsOpen(true)}>
+                    <CloudUploadIcon
+                      fill="currentColor"
+                      className="h-6 w-6"
+                      aria-hidden="true"
+                    />
+                  </button>
                 </div>
               )}
           </>
